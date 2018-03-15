@@ -10,12 +10,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name= "CUSTOMER_DETAILS")
-public class Customer {
+public class Customer{
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	@Column(name="CUSTOMER_ID")
-	private Long id;
+	private Long customerId;
 	
 	@Column(name="FIRSTNAME", nullable=false, length=30)
 	private String firstName;
@@ -39,8 +39,8 @@ public class Customer {
 	private String country;
 	
 	
-	public Long getId() {
-		return id;
+	public Long getCustomerId() {
+		return customerId;
 	}
 	
 	public String getFirstName() {
@@ -89,7 +89,7 @@ public class Customer {
 	
 	@Override
 	public String toString() {
-		return "Costomer [id=" + id + ", firstName=" + firstName
+		return "Costomer [customerId=" + customerId + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", street=" + street + ", city="
 				+ city + ", state=" + state + ", zip=" + zip + ", country="
 				+ country + "]";
@@ -98,12 +98,12 @@ public class Customer {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int)(prime * result + id);
+		result = (int)(prime * result + customerId);
 		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Customer && ((Customer)obj).id==this.id){
+		if(obj instanceof Customer && ((Customer)obj).customerId==this.customerId){
 			return true;
 		}else{
 			return false;

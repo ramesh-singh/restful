@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 //import org.springframework.hateoas.Link;
@@ -44,8 +45,8 @@ public class CustoomerServiceImpl implements CustomerService {
 	}
 	
 	@Override
-	public CustomerDTO getCustomerById(Long id) {
-		Customer customer= repository.getOne(id);
+	public CustomerDTO getCustomerById(Long customerId) {
+		Customer customer= repository.getOne(customerId);
 		CustomerDTO customerDTO= null;
 		if(customer!= null){
 			customerDTO= new CustomerDTO();
@@ -53,6 +54,41 @@ public class CustoomerServiceImpl implements CustomerService {
 		}
 		
 		return customerDTO;
+	}
+	
+	@Override
+	public CustomerDTO addCustomer(Customer customer) {
+		Customer savedCustomer= repository.save(customer);
+		CustomerDTO customerDTO= null;
+		if(savedCustomer!= null){
+			customerDTO= new CustomerDTO();
+			customerToCustomerDTO(savedCustomer, customerDTO);
+		}
+		
+		return customerDTO;
+	}
+	
+	@Override
+	public void updateCustomer(Customer customer, Long customerId) {
+		Customer fetchedCustomer= repository.getOne(customerId);
+		
+		if(fetchedCustomer!= null){
+			fetchedCustomer.setFirstName(customer.getFirstName());
+			fetchedCustomer.setLastName(customer.getLastName());
+			fetchedCustomer.setStreet(customer.getStreet());
+			fetchedCustomer.setCity(customer.getCity());
+			fetchedCustomer.setState(customer.getState());
+			fetchedCustomer.setCountry(customer.getCountry());
+			fetchedCustomer.setZip(customer.getZip());
+			repository.save(fetchedCustomer);
+		}
+		
+	}
+	
+	@Override
+	public void deleteCustomer(Long customerId) {
+		repository.delete(repository.getOne(customerId));
+		
 	}
 
 
@@ -69,9 +105,4 @@ public class CustoomerServiceImpl implements CustomerService {
 		Link selfLink= ControllerLinkBuilder.linkTo(CustomerResource.class).slash(customerDTO.getCustomerId()).withSelfRel();
 		customerDTO.add(selfLink);
 	}
-
-
-	
-
-	
 }

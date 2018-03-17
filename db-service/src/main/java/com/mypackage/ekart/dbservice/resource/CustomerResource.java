@@ -6,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,11 +40,11 @@ public class CustomerResource {
 
 	}
 
-	@RequestMapping(value="timeout", method = RequestMethod.GET)
+	/*@RequestMapping(value="timeout", method = RequestMethod.GET)
 	public String getFoobar() throws InterruptedException {
 		Thread.sleep(200000);
 		return "foo";
-	}
+	}*/
 
 	@GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
 	public List<CustomerDTO> getAllCustomers(){
@@ -53,7 +52,7 @@ public class CustomerResource {
 	}
 
 
-	@RequestMapping(value="/{id}", method= RequestMethod.GET)
+	@RequestMapping(value="/{id}", method= RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
 	public CustomerDTO getCustomerById(@PathVariable("id") Long id){
 		return customerService.getCustomerById(id);
 	}

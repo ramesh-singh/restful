@@ -1,5 +1,6 @@
 package com.mypackage.ekart.dbservice.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -42,6 +43,56 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		return orderDTO;
+	}
+
+	@Override
+	public OrderDTO getOrderById(Long orderId) {
+		Order fetchedOrder= repository.getOne(orderId);
+		OrderDTO orderDTO= null;
+		
+		if(fetchedOrder!= null){
+			orderDTO= new OrderDTO();
+			ObjectConverter.orderToOrderDTO(fetchedOrder, orderDTO);
+		}
+		
+		return orderDTO;
+	}
+
+	@Override
+	public List<OrderDTO> getAllOrders() {
+		List<Order> fetchedOrders= repository.findAll();
+		List<OrderDTO> orderDTOs= null;
+		
+		if(fetchedOrders!= null){
+			orderDTOs= new ArrayList<OrderDTO>();
+			
+			for(Order order: fetchedOrders){
+				OrderDTO orderDTO= new OrderDTO();
+				ObjectConverter.orderToOrderDTO(order, orderDTO);
+				orderDTOs.add(orderDTO);
+			}
+		}
+		return orderDTOs;
+	}
+
+	@Override
+	public void deleteOrder(Long orderId) {
+		repository.delete(repository.getOne(orderId));
+	}
+
+	@Override
+	public void updateOrder(Order order, Long orderId) {
+		Order fetchedOrder= repository.getOne(orderId);
+		
+		if(fetchedOrder!= null){
+			fetchedOrder.setTotal(order.getTotal());
+			fetchedOrder.setDate(order.getDate());
+			fetchedOrder.setCustomer(order.getCustomer());
+			fetchedOrder.setCancel(order.isCancel());
+			fetchedOrder.setLineItems(order.getLineItems());
+			repository.save(fetchedOrder);
+		}
+		
 	}
 
 }

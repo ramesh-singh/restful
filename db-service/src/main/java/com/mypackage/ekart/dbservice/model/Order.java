@@ -3,6 +3,7 @@ package com.mypackage.ekart.dbservice.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class Order {
 	@JoinColumn(name= "CUSTOMER_ID", nullable= false)
 	private Customer customer;
 	
-	@OneToMany
+	@OneToMany(cascade= CascadeType.ALL)
 	@JoinColumn(name= "ORDER_ID")
 	private List<LineItem> lineItems;
 	

@@ -2,12 +2,10 @@ package com.mypackage.ekart.dbservice.dto;
 
 import org.springframework.hateoas.ResourceSupport;
 
-import com.mypackage.ekart.dbservice.model.Product;
-
 public class LineItemDTO extends ResourceSupport{
 	private Long lineItemId;
 	private int quantity;
-	private Product product;
+	private ProductDTO productDTO;
 	public Long getLineItemId() {
 		return lineItemId;
 	}
@@ -20,11 +18,11 @@ public class LineItemDTO extends ResourceSupport{
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public Product getProduct() {
-		return product;
+	public ProductDTO getProduct() {
+		return productDTO;
 	}
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProduct(ProductDTO productDTO) {
+		this.productDTO = productDTO;
 	}
 
 }

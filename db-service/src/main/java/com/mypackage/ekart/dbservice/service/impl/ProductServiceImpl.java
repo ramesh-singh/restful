@@ -3,15 +3,13 @@ package com.mypackage.ekart.dbservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.mypackage.ekart.dbservice.dto.ProductDTO;
 import com.mypackage.ekart.dbservice.model.Product;
 import com.mypackage.ekart.dbservice.repository.ProductRepository;
-import com.mypackage.ekart.dbservice.resource.ProductResource;
 import com.mypackage.ekart.dbservice.service.ProductService;
+import com.mypackage.ekart.dbservice.util.ObjectConverter;
 
 @Component
 public class ProductServiceImpl implements ProductService {
@@ -29,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		if(savedProduct!= null){
 			productDTO= new ProductDTO();
-			convertProductToProductDTO(savedProduct, productDTO);
+			ObjectConverter.convertProductToProductDTO(savedProduct, productDTO);
 		}
 		return productDTO;
 	}
@@ -44,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
 			
 			for(Product product: productList){
 				ProductDTO productDTO= new ProductDTO();
-				convertProductToProductDTO(product, productDTO);
+				ObjectConverter.convertProductToProductDTO(product, productDTO);
 				productDtos.add(productDTO);
 			}
 		}
@@ -58,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
 		ProductDTO productDTO= null;
 		if(fetchedProduct!= null){
 			productDTO= new ProductDTO();
-			convertProductToProductDTO(fetchedProduct, productDTO);
+			ObjectConverter.convertProductToProductDTO(fetchedProduct, productDTO);
 		}
 		return productDTO;
 	}
@@ -78,14 +76,5 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteProduct(Long productId) {
 		repository.delete(repository.getOne(productId));
-	}
-	
-	private void convertProductToProductDTO(Product product, ProductDTO productDTO){
-		productDTO.setProductId(product.getProductId());
-		productDTO.setName(product.getName());
-		productDTO.setDescription(product.getDescription());
-		productDTO.setPrice(product.getPrice());
-		Link selfLink= ControllerLinkBuilder.linkTo(ProductResource.class).slash(productDTO.getProductId()).withSelfRel();
-		productDTO.add(selfLink);
 	}
 }

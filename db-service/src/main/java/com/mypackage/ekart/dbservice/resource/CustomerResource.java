@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -47,7 +48,7 @@ public class CustomerResource {
 	}*/
 
 	@GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-	public List<CustomerDTO> getAllCustomers(){
+	public List<CustomerDTO> getAllCustomers(@RequestParam(defaultValue="0", name="size") int size){
 		return customerService.getAllCustomers();
 	}
 

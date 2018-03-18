@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,7 +22,7 @@ public class LineItem {
 	private int quantity;
 	
 	@OneToOne
-	@Column(name="PRODUCT_ID")
+	@JoinColumn(name= "PRODUCT_ID", nullable= false)
 	private Product product;
 
 	public Long getLineItemId() {

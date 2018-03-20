@@ -3,9 +3,12 @@ package com.mypackage.ekart.dbservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Component;
 
 import com.mypackage.ekart.dbservice.dto.ProductDTO;
+import com.mypackage.ekart.dbservice.exception.ProductNotFoundException;
 import com.mypackage.ekart.dbservice.model.Product;
 import com.mypackage.ekart.dbservice.repository.ProductRepository;
 import com.mypackage.ekart.dbservice.service.ProductService;
@@ -22,20 +25,27 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductDTO addProduct(Product product) {
-		Product savedProduct= repository.save(product);
 		ProductDTO productDTO= null;
+		try{
+		Product savedProduct= repository.save(product);
+		
 		
 		if(savedProduct!= null){
 			productDTO= new ProductDTO();
 			ObjectConverter.convertProductToProductDTO(savedProduct, productDTO);
+		}
+		}catch(RuntimeException e){
+			throw new RuntimeException("Something went wrong. Please try again later.");
 		}
 		return productDTO;
 	}
 	
 	@Override
 	public List<ProductDTO> getAllProducts() {
-		List<Product> productList= repository.findAll();
 		List<ProductDTO> productDtos= null;
+		try{
+		List<Product> productList= repository.findAll();
+		
 		
 		if(productList!= null && productList.size()>0){
 			productDtos= new ArrayList<ProductDTO>();
@@ -46,23 +56,35 @@ public class ProductServiceImpl implements ProductService {
 				productDtos.add(productDTO);
 			}
 		}
+		}catch(RuntimeException e){
+			throw new RuntimeException("Something went wrong. Please try again later.");
+		}
 		
 		return productDtos;
 	}
 	
 	@Override
 	public ProductDTO getProductById(Long productId) {
-		Product fetchedProduct= repository.getOne(productId);
 		ProductDTO productDTO= null;
+		try{
+		Product fetchedProduct= repository.getOne(productId);
+		
 		if(fetchedProduct!= null){
 			productDTO= new ProductDTO();
 			ObjectConverter.convertProductToProductDTO(fetchedProduct, productDTO);
+		}
+		}catch(EntityNotFoundException e){
+			throw new ProductNotFoundException("Product with product id: "+productId+ 
+					" does not exist. Please try again with correct product id.");
+		}catch(RuntimeException e){
+			throw new RuntimeException("Something went wrong. Please try again later.");
 		}
 		return productDTO;
 	}
 	
 	@Override
 	public void updateProduct(Product product, Long productId) {
+		try{
 		Product fetchedProduct= repository.getOne(productId);
 		if(fetchedProduct!= null){
 			fetchedProduct.setName(product.getName());
@@ -70,11 +92,26 @@ public class ProductServiceImpl implements ProductService {
 			fetchedProduct.setPrice(product.getPrice());
 			repository.save(fetchedProduct);
 		}
+		}catch(EntityNotFoundException e){
+			throw new ProductNotFoundException("Product with product id: "+productId+ 
+					" does not exist. Please try again with correct product id.");
+		}catch(RuntimeException e){
+			throw new RuntimeException("Something went wrong. Please try again later.");
+		}
 	}
 
 
 	@Override
 	public void deleteProduct(Long productId) {
-		repository.delete(repository.getOne(productId));
+		try{
+			Product product= repository.getOne(productId);
+			product.getName();                                                  //Invoking to catch EntityNotFoundException.
+			repository.delete(product);
+			}catch(EntityNotFoundException e){
+				throw new ProductNotFoundException("Product with product id: "+productId+ 
+						" does not exist. Please try again with correct product id.");
+			}catch(RuntimeException e){
+				throw new RuntimeException("Something went wrong. Please try again later.");
+			}
 	}
 }

@@ -16,6 +16,16 @@ public class CachingSetup implements JCacheManagerCustomizer {
 			        .setExpiryPolicyFactory(TouchedExpiryPolicy.factoryOf(new javax.cache.expiry.Duration(TimeUnit.SECONDS, 10)))
 			        .setStoreByValue(false)
 			        .setStatisticsEnabled(true));
+		 
+		 cacheManager.createCache("product", new MutableConfiguration<>()  
+			        .setExpiryPolicyFactory(TouchedExpiryPolicy.factoryOf(new javax.cache.expiry.Duration(TimeUnit.SECONDS, 10)))
+			        .setStoreByValue(false)
+			        .setStatisticsEnabled(true));
+		 
+		 cacheManager.createCache("order", new MutableConfiguration<>()  
+			        .setExpiryPolicyFactory(TouchedExpiryPolicy.factoryOf(new javax.cache.expiry.Duration(TimeUnit.SECONDS, 10)))
+			        .setStoreByValue(false)
+			        .setStatisticsEnabled(true));
 		
 	}
 

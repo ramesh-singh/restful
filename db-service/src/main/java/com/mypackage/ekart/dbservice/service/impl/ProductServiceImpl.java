@@ -3,6 +3,7 @@ package com.mypackage.ekart.dbservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.cache.annotation.CacheResult;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Component;
@@ -41,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	@CacheResult
 	public List<ProductDTO> getAllProducts() {
 		List<ProductDTO> productDtos= null;
 		try{
@@ -64,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	@CacheResult
 	public ProductDTO getProductById(Long productId) {
 		ProductDTO productDTO= null;
 		try{

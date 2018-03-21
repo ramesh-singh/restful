@@ -1,5 +1,6 @@
 package com.mypackage.ekart.dbservice.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +17,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name= "ORDER_DETAILS")
-public class Order {
-	
+public class Order implements Serializable{
+
+	private static final long serialVersionUID = -7238680234690652867L;
+
 	@Id
 	@Column(name= "ORDER_ID")
 	@GeneratedValue(strategy= GenerationType.AUTO)

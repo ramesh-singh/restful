@@ -3,6 +3,7 @@ package com.mypackage.ekart.dbservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.cache.annotation.CacheResult;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class CustoomerServiceImpl implements CustomerService {
 
 
 	@Override
+	@CacheResult
 	public List<CustomerDTO> getAllCustomers() {
 		List<CustomerDTO> customerDTOs= null;
 		try{
@@ -46,11 +48,13 @@ public class CustoomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@CacheResult
 	public CustomerDTO getCustomerById(Long customerId) {
 		Customer customer= null;
 		CustomerDTO customerDTO= null;
 
 		try{
+			System.out.println("Retrieving Customer from database.");
 			customer= repository.getOne(customerId);
 			customerDTO= new CustomerDTO();
 			ObjectConverter.customerToCustomerDTO(customer, customerDTO);

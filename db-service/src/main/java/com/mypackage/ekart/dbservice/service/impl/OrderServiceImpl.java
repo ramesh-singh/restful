@@ -3,6 +3,7 @@ package com.mypackage.ekart.dbservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.cache.annotation.CacheResult;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Component;
@@ -52,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@CacheResult
 	public OrderDTO getOrderById(Long orderId) {
 		OrderDTO orderDTO= null;
 		try{
@@ -73,6 +75,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@CacheResult
 	public List<OrderDTO> getAllOrders() {
 		List<OrderDTO> orderDTOs= null;
 		try{

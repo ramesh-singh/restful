@@ -1,5 +1,7 @@
 package com.mypackage.ekart.dbservice.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name= "LINEITEM_DETAILS")
-public class LineItem {
+public class LineItem implements Serializable{
 	
+	private static final long serialVersionUID = -3460925459924675327L;
+
 	@Id
 	@Column(name= "LINEITEM_ID")
 	@GeneratedValue(strategy=GenerationType.AUTO)

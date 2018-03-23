@@ -3,9 +3,11 @@ package com.mypackage.ekart.dbservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.cache.annotation.CacheResult;
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.mypackage.ekart.dbservice.dto.OrderDTO;
@@ -28,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@CachePut(value= "order", key="#order")
 	public OrderDTO submitOrder(Order order) {
 		OrderDTO orderDTO= null;
 		try{
@@ -53,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	@CacheResult
+	@Cacheable("order")
 	public OrderDTO getOrderById(Long orderId) {
 		OrderDTO orderDTO= null;
 		try{
@@ -75,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	@CacheResult
+	@Cacheable("order")
 	public List<OrderDTO> getAllOrders() {
 		List<OrderDTO> orderDTOs= null;
 		try{
@@ -98,6 +101,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@CacheEvict(value= "order", allEntries= true)
 	public void deleteOrder(Long orderId) {
 		try{
 			Order order= repository.getOne(orderId);
@@ -112,6 +116,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@CacheEvict(value= "order", allEntries= true)
 	public void updateOrder(Order order, Long orderId) {
 		try{
 			Order fetchedOrder= repository.getOne(orderId);

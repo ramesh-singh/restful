@@ -3,9 +3,11 @@ package com.mypackage.ekart.dbservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.cache.annotation.CacheResult;
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.mypackage.ekart.dbservice.dto.ProductDTO;
@@ -25,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
 	
 
 	@Override
+	@CachePut(value= "product", key="#product")
 	public ProductDTO addProduct(Product product) {
 		ProductDTO productDTO= null;
 		try{
@@ -42,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	@CacheResult
+	@Cacheable("product")
 	public List<ProductDTO> getAllProducts() {
 		List<ProductDTO> productDtos= null;
 		try{
@@ -66,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	@CacheResult
+	@Cacheable("product")
 	public ProductDTO getProductById(Long productId) {
 		ProductDTO productDTO= null;
 		try{
@@ -86,6 +89,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	@CacheEvict(value= "product", allEntries= true)
 	public void updateProduct(Product product, Long productId) {
 		try{
 		Product fetchedProduct= repository.getOne(productId);
@@ -105,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
+	@CacheEvict(value= "product", allEntries= true)
 	public void deleteProduct(Long productId) {
 		try{
 			Product product= repository.getOne(productId);

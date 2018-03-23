@@ -3,9 +3,11 @@ package com.mypackage.ekart.dbservice.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.cache.annotation.CacheResult;
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.mypackage.ekart.dbservice.dto.CustomerDTO;
@@ -26,7 +28,7 @@ public class CustoomerServiceImpl implements CustomerService {
 
 
 	@Override
-	@CacheResult
+	@Cacheable("customer")
 	public List<CustomerDTO> getAllCustomers() {
 		List<CustomerDTO> customerDTOs= null;
 		try{
@@ -48,7 +50,7 @@ public class CustoomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	@CacheResult
+	@Cacheable("customer")
 	public CustomerDTO getCustomerById(Long customerId) {
 		Customer customer= null;
 		CustomerDTO customerDTO= null;
@@ -68,6 +70,7 @@ public class CustoomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@CachePut(value= "customer", key="#customer")
 	public CustomerDTO addCustomer(Customer customer) {
 		CustomerDTO customerDTO= null;
 		try{
@@ -86,6 +89,7 @@ public class CustoomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@CacheEvict(value= "customer", allEntries= true)
 	public void updateCustomer(Customer customer, Long customerId) {
 		try{
 			Customer fetchedCustomer= repository.getOne(customerId);
@@ -110,6 +114,7 @@ public class CustoomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@CacheEvict(value= "customer", allEntries= true)
 	public void deleteCustomer(Long customerId) {
 		try{
 		Customer customer= repository.getOne(customerId);

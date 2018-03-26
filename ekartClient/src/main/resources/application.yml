@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: ekart-client-service
+
+
+server:
+  port: 8301
+    

@@ -1,12 +1,3 @@
-spring:
-  application:
-    name: ekart-client-service
-
-
-server:
-  port: 8301
-  
-
 eureka:
   client:
     register-with-eureka: true

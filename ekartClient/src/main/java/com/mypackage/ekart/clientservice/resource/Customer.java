@@ -18,7 +18,7 @@ public class Customer {
 
 	@GetMapping(value="/{customerId}")
 	public Object getCustomerById(@PathVariable Long customerId){
-		return restTemplate.exchange("http://localhost:8300/rest/db/customers/"+customerId,
+		return restTemplate.exchange("http://db-service/rest/db/customers/"+customerId,
 				HttpMethod.GET,
 				null, new ParameterizedTypeReference<Object>() {
 		}).getBody();
